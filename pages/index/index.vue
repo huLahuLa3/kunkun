@@ -1,22 +1,14 @@
 <template>
 	<view>
 		<view style="width: 100%;height: 400rpx;position: fixed;z-index: 1;">
-			<video class="videoCss" src="/static/video/cxk.mp4" @error="errorMessage" controls :autoplay="false" :loop="true"></video>
+			<video class="videoCss" src="/static/video/cxk.mp4" controls :autoplay="false" :loop="true"></video>
 		</view>
 		<view style="height: 100%;width: 100%; background-color: red;display: flex;padding-top: 400rpx;">
 			<view class="audioLeft">
-				<scroll-view scroll-y="true">
-					<view style="width: 100%;height: 400rpx;">
-						<button v-for="(item, index) in jiListL" @click="playAudio(item.src)" type="primary">{{ item.name }}</button>
-					</view>
-				</scroll-view>
+				<buttons :list="jiListL" ref="buttonsRef1"></buttons>
 			</view>
 			<view class="audioRight">
-				<scroll-view scroll-y="true">
-					<view style="width: 100%;height: 400rpx;">
-						<button v-for="(item, index) in niList" @click="playAudio(item.src)" type="primary">{{ item.name }}</button>
-					</view>
-				</scroll-view>
+				<buttons :list="niList" ref="buttonsRef2"></buttons>
 			</view>
 		</view>
 		<view class="stopAudio"><button type="warn" @click="playStop">停止</button></view>
@@ -24,7 +16,11 @@
 </template>
 
 <script>
+import buttons from '../../components/buttons/buttons.vue'
 export default {
+	components: {
+		buttons
+	},
 	data() {
 		return {
 			innerAudioContext: {},
@@ -67,7 +63,7 @@ export default {
 				},
 				{
 					name: '你干嘛(版本2)',
-					src: '	http://attachment.0sm.com/node0/2022/07/862C697504368994-bafa959f71fa58c8.mp3'
+					src: 'http://attachment.0sm.com/node0/2022/07/862C697504368994-bafa959f71fa58c8.mp3'
 				},
 				{
 					name: '你干嘛(版本3)',
@@ -85,28 +81,29 @@ export default {
 		};
 	},
 	created() {
-		this.innerAudioContext = uni.createInnerAudioContext();
+		// this.innerAudioContext = uni.createInnerAudioContext();
 	},
 	mounted() {
-		this.playAudio(this.BGMSRC);
+		// this.playAudio(this.BGMSRC);
 	},
 	methods: {
-		playAudio(e) {
-			console.log(e);
-			this.innerAudioContext.stop();
-			this.innerAudioContext.src = e;
-			this.innerAudioContext.loop = true;
-			this.innerAudioContext.sessionCategory = 'soloAmbient';
-			this.innerAudioContext.play();
-			this.isPlay = false;
-		},
+		// playAudio(e) {
+		// 	console.log(e);
+		// 	this.innerAudioContext.stop();
+		// 	this.innerAudioContext.src = e;
+		// 	this.innerAudioContext.loop = true;
+		// 	this.innerAudioContext.sessionCategory = 'soloAmbient';
+		// 	this.innerAudioContext.play();
+		// 	this.isPlay = false;
+		// },
 		playStop() {
-			this.innerAudioContext.stop();
-			this.isPlay = true;
+			// console.log(this.$refs);
+			this.$refs.buttonsRef1.playStop();
+			this.$refs.buttonsRef2.playStop();
 		},
-		errorMessage(e) {
-			console.log(e);
-		}
+		// errorMessage(e) {
+		// 	console.log(e);
+		// }
 	}
 };
 </script>
