@@ -1,22 +1,19 @@
 <template>
 	<view>
 		<view style="width: 100%;height: 400rpx;position: fixed;z-index: 1;">
-			<video class="videoCss" src="/static/video/cxk.mp4" controls :autoplay="false" :loop="true"></video>
+			<video class="videoCss" :src="defaultSrc" controls :autoplay="false" :loop="true"></video>
+			<button style="position: absolute;top: 0;right: 0; z-index: 2;opacity: 0.5;border-radius: 10rpx;" type="default" @click="chooseVideos" size="mini">更换视频</button>
 		</view>
-		<view style="height: 100%;width: 100%; background-color: red;display: flex;padding-top: 400rpx;">
-			<view class="audioLeft">
-				<buttons :list="jiListL" ref="buttonsRef1"></buttons>
-			</view>
-			<view class="audioRight">
-				<buttons :list="niList" ref="buttonsRef2"></buttons>
-			</view>
+		<view style="height: 100%;width: 100%; display: flex;padding-top: 400rpx;">
+			<view class="audioLeft"><buttons :list="jiListL" ref="buttonsRef1"></buttons></view>
+			<view class="audioRight"><buttons :list="niList" ref="buttonsRef2"></buttons></view>
 		</view>
 		<view class="stopAudio"><button type="warn" @click="playStop">停止</button></view>
 	</view>
 </template>
 
 <script>
-import buttons from '../../components/buttons/buttons.vue'
+import buttons from '../../components/buttons/buttons.vue';
 export default {
 	components: {
 		buttons
@@ -26,6 +23,7 @@ export default {
 			innerAudioContext: {},
 			isPlay: true,
 			BGMSRC: 'http://attachment.0sm.com/node0/2022/07/862C65F0453C9304-41a547ebe1e12776.mp3',
+			defaultSrc: '/static/video/cxk.mp4',
 			jiListL: [
 				{
 					name: '鸡你太美(版本1)',
@@ -80,30 +78,25 @@ export default {
 			]
 		};
 	},
-	created() {
-		// this.innerAudioContext = uni.createInnerAudioContext();
-	},
-	mounted() {
-		// this.playAudio(this.BGMSRC);
-	},
+	created() {},
+	mounted() {},
 	methods: {
-		// playAudio(e) {
-		// 	console.log(e);
-		// 	this.innerAudioContext.stop();
-		// 	this.innerAudioContext.src = e;
-		// 	this.innerAudioContext.loop = true;
-		// 	this.innerAudioContext.sessionCategory = 'soloAmbient';
-		// 	this.innerAudioContext.play();
-		// 	this.isPlay = false;
-		// },
 		playStop() {
-			// console.log(this.$refs);
 			this.$refs.buttonsRef1.playStop();
 			this.$refs.buttonsRef2.playStop();
 		},
-		// errorMessage(e) {
-		// 	console.log(e);
-		// }
+		chooseVideos() {
+			uni.chooseVideo({
+				sourceType: ['album'],
+				success: res => {
+					console.log(res);
+					this.defaultSrc = res.tempFilePath;
+				},
+				fail: (res) => {
+					console.log(res);
+				}
+			})
+		}
 	}
 };
 </script>
