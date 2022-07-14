@@ -23,7 +23,7 @@ export default {
 			innerAudioContext: {},
 			isPlay: true,
 			BGMSRC: 'http://attachment.0sm.com/node0/2022/07/862C65F0453C9304-41a547ebe1e12776.mp3',
-			defaultSrc: '/static/video/cxk.mp4',
+			defaultSrc: '',
 			jiListL: [
 				{
 					name: '鸡你太美(版本1)',
